@@ -3,7 +3,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - NextJS 16.0.2
 - TailwindCSS 4
 - shadcn/ui
-- Create Tim/UI
+- Create Tim/UI: https://www.creative-tim.com/ui
 
 https://neonity.cc
 
