@@ -1,5 +1,12 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+- NextJS 16.0.2
+- TailwindCSS 4
+- shadcn/ui
+- Create Tim/UI
+
+https://neonity.cc
+
 ## Getting Started
 
 First, run the development server:
