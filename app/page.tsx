@@ -1,3 +1,4 @@
+
 import { Button } from '@/components/ui/button';
 import { ShowcaseMasonry } from "@/components/showcase-masonry"
 import Link from 'next/link';
@@ -16,18 +17,23 @@ export default function IndexPage() {
           />
         </div>
       </div>
+
       <h1 className="text-4xl font-bold mt-24">Welcome to Neonity's Rabbit hole!</h1>
-      <p className="font-poppins text-xl text-center mt-4">
+      <p className="text-xl text-center mt-4">
         <span className='text-red-400'>Red pill</span> or <span className='text-blue-400'>blue pill</span>? <br />你选择真实的荒漠，还是虚幻的繁荣？</p>
       <div className="mt-6">
-      <Button variant="outline">
-        <Link href="/web3-01">Get Started</Link>
-      </Button>
+        <div className="flex w-full items-center justify-center gap-2 pt-2 **:data-[slot=button]:shadow-none">
+          <Button variant="outline">
+            <Link href="/web3-01">Get Started</Link>
+          </Button>
 
-      <Button size="sm">
-        <Link href="/web3-02">View Projects</Link>
-      </Button>
+          <Button size="sm">
+            <Link href="/web3-02">View Projects</Link>
+          </Button>
+        </div>
+ 
       </div>
+
 
       <ShowcaseMasonry />
     </main>
