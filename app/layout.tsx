@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
+import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,10 +19,14 @@ export default function RootLayout({
       <body
       >
         <div className="bg-background relative z-10 flex min-h-svh flex-col">
-          <SiteHeader />
-        {children}
+            <ThemeProvider>
+              <SiteHeader />
+                {children}
+            </ThemeProvider>
+
         </div>
       </body>
+
     </html>
   );
 }

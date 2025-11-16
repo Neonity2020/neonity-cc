@@ -1,3 +1,4 @@
+import { ModeSwitcher } from "@/components/mode-switcher";
 import Link from "next/link";
 export function SiteHeader() {
     return (
@@ -13,7 +14,8 @@ export function SiteHeader() {
                                 </span>
                             </Link>
                             <p className="text-gray-300 px-4"></p>
-                                
+                        <ModeSwitcher />
+                        {/* Right: Actions */}
                         </div>
                    </div>
                 </div>
