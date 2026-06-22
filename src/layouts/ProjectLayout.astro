@@ -1,0 +1,58 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import ProjectBadge from '../components/ProjectBadge.astro';
+
+type Props = {
+	project: CollectionEntry<'projects'>;
+};
+
+const { project } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={project.data.title} description={project.data.description} image={project.data.image} />
+	</head>
+	<body>
+		<div class="glow"></div>
+		<Header />
+		<main class="project_page">
+			<a class="back_link" href="/projects">← 全部在建项目</a>
+			<header class="project_header">
+				<ProjectBadge status={project.data.status} />
+				<h1>{project.data.title}</h1>
+				<p>{project.data.description}</p>
+
+				<div class="project_progress_header">
+					<span>当前进度</span>
+					<strong>{project.data.progress}%</strong>
+				</div>
+				<progress value={project.data.progress} max="100">{project.data.progress}%</progress>
+
+				<div class="project_facts">
+					<div><span>启动时间</span><FormattedDate date={project.data.startedAt} /></div>
+					{project.data.targetDate && <div><span>目标日期</span><FormattedDate date={project.data.targetDate} /></div>}
+				</div>
+
+				<div class="project_technologies" aria-label="技术栈">
+					{project.data.technologies.map((technology) => <span>{technology}</span>)}
+				</div>
+
+				{(project.data.website || project.data.repository) && (
+					<div class="project_links">
+						{project.data.website && <a href={project.data.website} target="_blank" rel="noreferrer">访问项目 ↗</a>}
+						{project.data.repository && <a href={project.data.repository} target="_blank" rel="noreferrer">查看代码 ↗</a>}
+					</div>
+				)}
+			</header>
+
+			<article class="content project_content"><slot /></article>
+		</main>
+		<Footer />
+	</body>
+</html>

@@ -6,34 +6,41 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
 type Props = {
-	release: CollectionEntry<'releases'>;
+	post: CollectionEntry<'posts'>;
 };
 
-const { release } = Astro.props;
+const { post } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<BaseHead
-			title={release.data.title}
-			description={release.data.description}
-			image={release.data.image}
+			title={post.data.title}
+			description={post.data.description}
+			image={post.data.image}
+			og={{ type: 'article' }}
 		/>
 	</head><body>
 		<div class="glow"></div>
 		<Header />
-		<div class="post single" transition:persist transition:name="post">
-			<div class="version_wrapper">
-				<div class="version_info">
-					<div class="version_number">{release.data.versionNumber}</div>
-					<FormattedDate class="date" date={release.data.date} />
+		<main class="article_page">
+			<a class="back_link" href="/">← 返回首页</a>
+			<header class="article_header">
+				<div class="article_meta">
+					<FormattedDate date={post.data.date} />
+					<span>·</span><span>{post.data.author}</span>
 				</div>
-			</div>
-			<div class="content">
+				<h1>{post.data.title}</h1>
+				<p>{post.data.description}</p>
+				<div class="tag_list">
+					{post.data.tags.map((tag) => <a class="tag" href={`/tags/${encodeURIComponent(tag)}`}>#{tag}</a>)}
+				</div>
+			</header>
+			<article class="content">
 				<slot />
-			</div>
-		</div>
+			</article>
+		</main>
 		<Footer />
 	</body>
 </html>

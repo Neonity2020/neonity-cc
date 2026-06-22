@@ -1,0 +1,46 @@
+---
+import FormattedDate from '../../components/FormattedDate.astro';
+import ProjectBadge from '../../components/ProjectBadge.astro';
+import Layout from '../../layouts/IndexLayout.astro';
+import { getPublishedProjects } from '../../lib/projects';
+
+const projects = await getPublishedProjects();
+---
+
+<Layout title="在建项目" description="查看 neonity.cc 正在规划、开发和测试的项目。">
+	<main class="page projects_index">
+		<p class="eyebrow">WORK IN PROGRESS</p>
+		<h1>在建项目</h1>
+		<p class="page_intro">公开我们正在构建的项目、当前进度和接下来的计划。</p>
+
+		{projects.length > 0 ? (
+			<div class="project_grid">
+				{projects.map((project) => (
+					<article class:list={['project_card', { featured: project.data.featured }]}>
+						<div class="project_card_top">
+							<ProjectBadge status={project.data.status} />
+							{project.data.featured && <span class="featured_label">重点项目</span>}
+						</div>
+						<h2><a href={`/projects/${project.id}`}>{project.data.title}</a></h2>
+						<p>{project.data.description}</p>
+
+						<div class="project_progress_header">
+							<span>进度</span><strong>{project.data.progress}%</strong>
+						</div>
+						<progress value={project.data.progress} max="100">{project.data.progress}%</progress>
+
+						<div class="project_card_footer">
+							<div class="project_technologies">
+								{project.data.technologies.slice(0, 4).map((technology) => <span>{technology}</span>)}
+							</div>
+							{project.data.targetDate && <span class="project_target">目标 <FormattedDate date={project.data.targetDate} /></span>}
+						</div>
+						<a class="project_card_link" href={`/projects/${project.id}`} aria-label={`查看 ${project.data.title}`}></a>
+					</article>
+				))}
+			</div>
+		) : (
+			<p class="empty_state">目前没有公开的在建项目。</p>
+		)}
+	</main>
+</Layout>

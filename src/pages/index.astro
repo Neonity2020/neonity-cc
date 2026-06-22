@@ -1,36 +1,47 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 import FormattedDate from '../components/FormattedDate.astro';
 import Layout from '../layouts/IndexLayout.astro';
+import { getPublishedPosts, getTagHref } from '../lib/posts';
 
-const posts = await getCollection('releases');
-posts.sort((a, b) => +b.data.date - +a.data.date);
+const posts = await getPublishedPosts();
 ---
 
 <Layout>
 	<main>
-		<h1 class="page_title">Changelog</h1>
-		<hr />
-		<ul class="posts" transition:name="post">
+		<section class="hero">
+			<p class="eyebrow">NEONITY / AI NOTES</p>
+			<h1>理解 AI，<br />也理解它正在改变的世界。</h1>
+			<p class="hero_intro">分享对 AI 技术的重要思考。关注模型之外的产品、工程与社会变化。</p>
+		</section>
+
+		<section class="feed" aria-labelledby="latest-posts">
+			<div class="section_heading">
+				<h2 id="latest-posts">最新文章</h2>
+				<a href="/tags">浏览全部标签</a>
+			</div>
+			<ul class="post_cards">
 			{
 				posts.map((post) => (
-					<li class="post">
-						<div class="version_wrapper">
-							<div class="version_info">
-								<a href={`/releases/${post.id}`}>
-									<div class="version_number">{post.data.versionNumber}</div>
-									<FormattedDate class="date" date={post.data.date} />
-								</a>
+					<li class="post_card">
+						<a class="post_card_link" href={`/posts/${post.id}`}>
+							{post.data.image && (
+								<Image src={post.data.image.src} alt={post.data.image.alt} width={720} height={405} />
+							)}
+							<div class="post_card_body">
+								<div class="post_meta"><FormattedDate date={post.data.date} /> · {post.data.author}</div>
+								<h3>{post.data.title}</h3>
+								<p>{post.data.description}</p>
+								<span class="read_more">阅读全文 →</span>
 							</div>
-						</div>
-						<div class="content">
-							{render(post).then(({ Content }) => (
-								<Content />
-							))}
+						</a>
+						<div class="tag_list" aria-label="文章标签">
+							{post.data.tags.map((tag) => <a class="tag" href={getTagHref(tag)}>#{tag}</a>)}
 						</div>
 					</li>
 				))
 			}
-		</ul>
+			</ul>
+		</section>
 	</main>
 </Layout>

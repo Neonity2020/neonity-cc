@@ -11,6 +11,13 @@ const { title = SiteTitle, name = SiteTitle, description = SiteDescription, ...s
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <SEO {title} {description} {name} {...seo} />
 
+<link
+	rel="alternate"
+	type="application/rss+xml"
+	title={`${SiteTitle} RSS`}
+	href={new URL('/rss.xml', Astro.site)}
+/>
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link

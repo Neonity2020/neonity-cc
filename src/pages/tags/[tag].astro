@@ -1,0 +1,33 @@
+---
+import FormattedDate from '../../components/FormattedDate.astro';
+import Layout from '../../layouts/IndexLayout.astro';
+import { getAllTags, getPublishedPosts } from '../../lib/posts';
+
+export async function getStaticPaths() {
+	const posts = await getPublishedPosts();
+	return getAllTags(posts).map((tag) => ({
+		params: { tag },
+		props: { tag, posts: posts.filter((post) => post.data.tags.includes(tag)) },
+	}));
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<Layout title={`#${tag}`} description={`neonity.cc 中关于 ${tag} 的文章`}>
+	<main class="page">
+		<a class="back_link" href="/tags">← 全部标签</a>
+		<h1>#{tag}</h1>
+		<ul class="compact_posts">
+			{posts.map((post) => (
+				<li>
+					<FormattedDate date={post.data.date} />
+					<a href={`/posts/${post.id}`}>
+						<h2>{post.data.title}</h2>
+						<p>{post.data.description}</p>
+					</a>
+				</li>
+			))}
+		</ul>
+	</main>
+</Layout>

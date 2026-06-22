@@ -1,0 +1,11 @@
+---
+import { releaseStatusLabels, type ReleaseStatus } from '../lib/releases';
+
+type Props = {
+	status: ReleaseStatus;
+};
+
+const { status } = Astro.props;
+---
+
+<span class:list={['release_status', `release_status--${status}`]}>{releaseStatusLabels[status]}</span>

@@ -1,0 +1,43 @@
+---
+import FormattedDate from '../../components/FormattedDate.astro';
+import ReleaseBadge from '../../components/ReleaseBadge.astro';
+import Layout from '../../layouts/IndexLayout.astro';
+import { getPublishedReleases } from '../../lib/releases';
+
+const releases = await getPublishedReleases();
+---
+
+<Layout title="Releases" description="neonity.cc 的版本发布记录与重要变更。">
+	<main class="page releases_index">
+		<p class="eyebrow">PRODUCT UPDATES</p>
+		<h1>Releases</h1>
+		<p class="page_intro">记录 neonity.cc 的产品演进、重要能力与兼容性变化。</p>
+
+		{releases.length > 0 ? (
+			<ol class="release_timeline">
+				{releases.map((release) => (
+					<li>
+						<div class="release_marker" aria-hidden="true"></div>
+						<div class="release_list_meta">
+							<FormattedDate date={release.data.date} />
+							<span class="release_version">v{release.data.version}</span>
+						</div>
+						<a class="release_list_card" href={`/releases/${release.id}`}>
+							<div class="release_list_heading">
+								<h2>{release.data.title}</h2>
+								<ReleaseBadge status={release.data.status} />
+							</div>
+							<p>{release.data.description}</p>
+							{release.data.highlights.length > 0 && (
+								<ul>{release.data.highlights.slice(0, 3).map((highlight) => <li>{highlight}</li>)}</ul>
+							)}
+							<span class="read_more">查看完整变更 →</span>
+						</a>
+					</li>
+				))}
+			</ol>
+		) : (
+			<p class="empty_state">还没有公开的 Release。</p>
+		)}
+	</main>
+</Layout>

@@ -1,0 +1,58 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import ReleaseBadge from '../components/ReleaseBadge.astro';
+
+type Props = {
+	release: CollectionEntry<'releases'>;
+};
+
+const { release } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead
+			title={`${release.data.title} · ${release.data.version}`}
+			description={release.data.description}
+			image={release.data.image}
+		/>
+		<link
+			rel="alternate"
+			type="application/rss+xml"
+			title="neonity.cc Releases RSS"
+			href={new URL('/releases/rss.xml', Astro.site)}
+		/>
+	</head>
+	<body>
+		<div class="glow"></div>
+		<Header />
+		<main class="release_page">
+			<a class="back_link" href="/releases">← 全部 Release</a>
+			<header class="release_header">
+				<div class="release_kicker">
+					<span class="release_version">v{release.data.version}</span>
+					<ReleaseBadge status={release.data.status} />
+					{release.data.breaking && <span class="breaking_badge">包含破坏性变更</span>}
+				</div>
+				<h1>{release.data.title}</h1>
+				<p>{release.data.description}</p>
+				<div class="release_date">发布于 <FormattedDate date={release.data.date} /></div>
+			</header>
+
+			{release.data.highlights.length > 0 && (
+				<aside class="release_highlights" aria-labelledby="release-highlights">
+					<h2 id="release-highlights">版本亮点</h2>
+					<ul>{release.data.highlights.map((highlight) => <li>{highlight}</li>)}</ul>
+				</aside>
+			)}
+
+			<article class="content release_content"><slot /></article>
+		</main>
+		<Footer />
+	</body>
+</html>

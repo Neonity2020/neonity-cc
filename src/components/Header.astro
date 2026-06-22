@@ -42,13 +42,16 @@ import { SiteTitle } from '../consts';
 			</a>
 		</h2>
 		<div class="links">
-			<a href="mailto:contactus@yourwebsite.example">Contact</a>
+			<a href="/">文章</a>
+			<a href="/projects">项目</a>
+			<a href="/releases">Release</a>
+			<a href="/tags">标签</a>
+			<a href="/about">关于</a>
 		</div>
 	</nav>
 </header>
 
 <style>
-	.links a {
-		text-decoration: none;
-	}
+	.links { display: flex; gap: 1.25rem; }
+	.links a { margin: 0; text-decoration: none; }
 </style>

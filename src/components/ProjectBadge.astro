@@ -1,0 +1,14 @@
+---
+import { projectStatusLabels, type ProjectStatus } from '../lib/projects';
+
+type Props = {
+	status: ProjectStatus;
+};
+
+const { status } = Astro.props;
+---
+
+<span class:list={['project_status', `project_status--${status}`]}>
+	<span class="project_status_dot" aria-hidden="true"></span>
+	{projectStatusLabels[status]}
+</span>
