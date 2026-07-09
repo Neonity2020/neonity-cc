@@ -1,17 +1,19 @@
 ---
-
+import ContactSection from "../components/ContactSection.astro";
+import FocusSection from "../components/FocusSection.astro";
+import HeroSection from "../components/HeroSection.astro";
+import IntroSection from "../components/IntroSection.astro";
+import WorkSection from "../components/WorkSection.astro";
+import { about, contact, focusAreas, hero, homeStats, projects } from "../data/home";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+  <main class="site-shell">
+    <HeroSection hero={hero} stats={homeStats} />
+    <IntroSection about={about} />
+    <WorkSection projects={projects} />
+    <FocusSection focusAreas={focusAreas} />
+    <ContactSection contact={contact} />
+  </main>
+</BaseLayout>

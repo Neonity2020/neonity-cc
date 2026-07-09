@@ -1,0 +1,15 @@
+---
+import type { FocusArea } from "../data/home";
+
+interface Props {
+  focus: FocusArea;
+}
+
+const { focus } = Astro.props;
+---
+
+<article class="focus-card">
+  <p>{focus.kicker}</p>
+  <h3>{focus.title}</h3>
+  <span>{focus.body}</span>
+</article>

@@ -1,0 +1,45 @@
+---
+import type { HeroContent, HomeStat } from "../data/home";
+import IdentityField from "./IdentityField.astro";
+import SiteHeader from "./SiteHeader.astro";
+
+interface Props {
+  hero: HeroContent;
+  stats: HomeStat[];
+}
+
+const { hero, stats } = Astro.props;
+---
+
+<section class="hero grid-panel" id="top" aria-labelledby="hero-title">
+  <SiteHeader />
+  <IdentityField />
+
+  <div class="hero-content">
+    <div class="hero-copy">
+      <p class="eyebrow">{hero.eyebrow}</p>
+      <h1 id="hero-title">{hero.title}</h1>
+      <p>{hero.body}</p>
+      <div class="hero-actions">
+        {
+          hero.actions.map((action) => (
+            <a class:list={["button", { "button-secondary": action.variant === "secondary" }]} href={action.href}>
+              {action.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="signal-row" aria-label="Homepage themes">
+    {
+      stats.map((stat) => (
+        <article class="signal-item">
+          <span>{stat.value}</span>
+          <p>{stat.label}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>

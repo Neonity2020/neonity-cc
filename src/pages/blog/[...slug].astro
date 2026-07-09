@@ -1,0 +1,82 @@
+---
+import { getCollection, render } from "astro:content";
+import SiteHeader from "../../components/SiteHeader.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  estimateReadingTime,
+  formatDate,
+  getPostHref,
+  getPublishedPosts,
+  type BlogPost,
+} from "../../lib/blog";
+
+interface Props {
+  post: BlogPost;
+}
+
+export async function getStaticPaths() {
+  const posts = getPublishedPosts(await getCollection("blog"));
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const relatedPosts = getPublishedPosts(await getCollection("blog"))
+  .filter((candidate) => candidate.id !== post.id)
+  .slice(0, 3);
+---
+
+<BaseLayout title={`${post.data.title} | NEONITY.cc Blog`} description={post.data.description}>
+  <main class="site-shell article-shell">
+    <section class="article-hero grid-panel" aria-labelledby="article-title">
+      <SiteHeader />
+
+      <div class="section-inner article-hero-layout">
+        <a class="back-link" href="/blog/">Back to blog</a>
+        <div class="article-kicker">
+          <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+          <span>{estimateReadingTime(post.body)} min read</span>
+        </div>
+        <h1 id="article-title">{post.data.title}</h1>
+        <p class="article-summary">{post.data.description}</p>
+        <ul class="tag-list article-tag-list">
+          {post.data.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <article class="article-section">
+      <div class="article-frame">
+        <div class="article-body">
+          <Content />
+        </div>
+      </div>
+    </article>
+
+    {
+      relatedPosts.length > 0 && (
+        <section class="related-section grid-panel" aria-labelledby="related-title">
+          <div class="section-inner">
+            <div class="blog-index-heading">
+              <p class="eyebrow">Next</p>
+              <h2 id="related-title">Keep reading</h2>
+            </div>
+            <div class="related-list">
+              {relatedPosts.map((relatedPost) => (
+                <a class="related-card" href={getPostHref(relatedPost)}>
+                  <span>{formatDate(relatedPost.data.pubDate)}</span>
+                  <strong>{relatedPost.data.title}</strong>
+                  <p>{relatedPost.data.description}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </main>
+</BaseLayout>

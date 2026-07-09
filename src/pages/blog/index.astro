@@ -1,0 +1,91 @@
+---
+import { getCollection } from "astro:content";
+import SiteHeader from "../../components/SiteHeader.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { estimateReadingTime, formatDate, getPostHref, getPublishedPosts } from "../../lib/blog";
+
+const posts = getPublishedPosts(await getCollection("blog"));
+const featuredPost = posts[0];
+const archivePosts = posts.slice(1);
+---
+
+<BaseLayout
+  title="Blog | NEONITY.cc"
+  description="Notes, build logs, and field reports from the NEONITY.cc personal web node."
+>
+  <main class="site-shell blog-shell">
+    <section class="blog-hero grid-panel" aria-labelledby="blog-title">
+      <SiteHeader />
+
+      <div class="section-inner blog-hero-layout">
+        <div>
+          <p class="eyebrow">Blog</p>
+          <h1 id="blog-title">Field notes</h1>
+        </div>
+        <p>
+          Writing from the lab: short essays, build logs, interface notes, and the traces of ideas
+          while they are still warm.
+        </p>
+      </div>
+    </section>
+
+    <section class="blog-index-section" aria-labelledby="blog-index-title">
+      <div class="section-inner">
+        <div class="blog-index-heading">
+          <p class="eyebrow">Latest</p>
+          <h2 id="blog-index-title">Notes in public</h2>
+        </div>
+
+        {
+          posts.length > 0 ? (
+            <div class="blog-list">
+              {featuredPost && (
+                <article class="blog-card featured-blog-card">
+                  <div>
+                    <div class="post-meta">
+                      <time datetime={featuredPost.data.pubDate.toISOString()}>
+                        {formatDate(featuredPost.data.pubDate)}
+                      </time>
+                      <span>{estimateReadingTime(featuredPost.body)} min read</span>
+                    </div>
+                    <h3>
+                      <a href={getPostHref(featuredPost)}>{featuredPost.data.title}</a>
+                    </h3>
+                  </div>
+                  <p>{featuredPost.data.description}</p>
+                  <ul class="tag-list">
+                    {featuredPost.data.tags.map((tag) => (
+                      <li>{tag}</li>
+                    ))}
+                  </ul>
+                </article>
+              )}
+
+              {archivePosts.map((post) => (
+                <article class="blog-card">
+                  <div>
+                    <div class="post-meta">
+                      <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+                      <span>{estimateReadingTime(post.body)} min read</span>
+                    </div>
+                    <h3>
+                      <a href={getPostHref(post)}>{post.data.title}</a>
+                    </h3>
+                  </div>
+                  <p>{post.data.description}</p>
+                  <ul class="tag-list">
+                    {post.data.tags.map((tag) => (
+                      <li>{tag}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <p class="blog-empty">No public notes yet.</p>
+          )
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>

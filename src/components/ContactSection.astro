@@ -1,0 +1,33 @@
+---
+import type { ContactContent } from "../data/home";
+import SectionHeading from "./SectionHeading.astro";
+
+interface Props {
+  contact: ContactContent;
+}
+
+const { contact } = Astro.props;
+---
+
+<section class="contact-section grid-panel" id="contact" aria-labelledby="contact-title">
+  <div class="section-inner contact-layout">
+    <SectionHeading eyebrow={contact.eyebrow} title={contact.title} titleId="contact-title" />
+    <div class="contact-panel">
+      <div class="contact-copy">
+        <p>{contact.body}</p>
+        <ul class="availability-list" aria-label="Availability">
+          {contact.availability.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div class="contact-actions">
+        {
+          contact.actions.map((action) => (
+            <a class:list={["button", { "button-secondary": action.variant === "secondary" }]} href={action.href}>
+              {action.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+---
+import type { FocusArea } from "../data/home";
+import FocusCard from "./FocusCard.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+interface Props {
+  focusAreas: FocusArea[];
+}
+
+const { focusAreas } = Astro.props;
+---
+
+<section class="focus-section" aria-labelledby="focus-title">
+  <div class="section-inner">
+    <SectionHeading eyebrow="Focus" title="What lives here" titleId="focus-title" />
+    <div class="focus-grid">
+      {focusAreas.map((focus) => <FocusCard focus={focus} />)}
+    </div>
+  </div>
+</section>

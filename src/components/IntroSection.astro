@@ -1,0 +1,21 @@
+---
+import type { AboutContent } from "../data/home";
+
+interface Props {
+  about: AboutContent;
+}
+
+const { about } = Astro.props;
+---
+
+<section class="intro-section" aria-labelledby="intro-title">
+  <div class="section-inner two-column">
+    <div>
+      <p class="eyebrow">{about.eyebrow}</p>
+      <h2 id="intro-title">{about.title}</h2>
+    </div>
+    <div class="text-flow">
+      {about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </div>
+</section>
