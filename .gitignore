@@ -3,6 +3,11 @@ dist/
 # generated types
 .astro/
 
+# local OPC intelligence data
+ops/daily-intel/data/*.sqlite
+ops/daily-intel/data/*.sqlite-shm
+ops/daily-intel/data/*.sqlite-wal
+
 # dependencies
 node_modules/
 
