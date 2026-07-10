@@ -56,6 +56,20 @@ const archivePosts = posts.slice(1);
                     </h3>
                   </div>
                   <p>{featuredPost.data.description}</p>
+                  <a
+                    class="featured-blog-media"
+                    href={getPostHref(featuredPost)}
+                    aria-label={`Read ${featuredPost.data.title}`}
+                  >
+                    <img
+                      src="/images/blog/chatgpt-codex-desktop.webp"
+                      alt="ChatGPT Codex 桌面应用中的 neonity.cc 站点构建任务"
+                      width="2000"
+                      height="1249"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
                   <ul class="tag-list">
                     {featuredPost.data.tags.map((tag) => (
                       <li>{tag}</li>

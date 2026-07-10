@@ -15,6 +15,11 @@ OpenAI 的 2026 年 7 月 9 日更新，把 Codex 放进了一个更大的产品
 
 更准确地说，Codex 仍然是面向软件开发和技术工作的专用 agent；变化在于入口、命名和上下文。OpenAI 的帮助文档已经把桌面端模式切换写成 “ChatGPT Work” 和 “ChatGPT Codex”，这意味着 Codex 的产品身份正在从一个独立应用名，变成 ChatGPT 内部的专业工作模式。
 
+<figure class="article-figure">
+  <img src="/images/blog/chatgpt-codex-desktop.webp" alt="macOS 桌面上的 ChatGPT Codex 应用，侧边栏显示 ChatGPT Codex 品牌，主区域展示 neonity.cc 站点构建任务" width="2000" height="1249" loading="lazy" decoding="async" />
+  <figcaption>新的 ChatGPT 桌面应用中，Codex 以 ChatGPT Codex 的身份继续承担软件开发工作。</figcaption>
+</figure>
+
 同一轮更新里还有一个更底层的信号：GPT-5.6 模型家族已经可用。OpenAI 的 [Using GPT-5.6](https://developers.openai.com/api/docs/guides/latest-model.md) 文档显示，`gpt-5.6` alias 会路由到旗舰能力模型 `gpt-5.6-sol`，同时可以选择 `gpt-5.6-terra` 获得更低价格下的强性能，或用 `gpt-5.6-luna` 承担高吞吐量工作负载。
 
 ## 官方更新说了什么
