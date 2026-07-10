@@ -115,17 +115,36 @@ h1 {
   min-height: 5rem;
 }
 
-.flame-link {
+.logo-link {
   display: grid;
-  width: clamp(3rem, 4.7vw, 5.2rem);
+  width: clamp(3.25rem, 4.9vw, 5.5rem);
   aspect-ratio: 1;
+  overflow: hidden;
   place-items: center;
+  border: 2px solid rgba(255, 248, 220, 0.82);
+  border-radius: 8px;
+  background: #070806;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.38);
+  transform: rotate(-2deg);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
 }
 
-.flame {
+.logo-link:hover {
+  border-color: rgba(255, 118, 36, 0.95);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.38);
+  transform: rotate(-2deg) translateY(2px);
+}
+
+.site-logo {
+  display: block;
   width: 100%;
-  color: var(--orange);
-  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.35));
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: contrast(1.05) saturate(1.08);
 }
 
 .wordmark {
@@ -634,9 +653,9 @@ h1 {
 .blog-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  border: 1px solid #181413;
-  background: #181413;
+  align-items: stretch;
+  gap: clamp(0.9rem, 1.45vw, 1.35rem);
+  background: transparent;
 }
 
 .blog-card {
@@ -644,13 +663,24 @@ h1 {
   grid-template-rows: auto 1fr auto;
   min-height: 23rem;
   padding: 1.4rem;
+  border: 2px solid #181413;
+  border-radius: 8px;
   background: #f7eebf;
+  box-shadow: 0 7px 0 rgba(24, 20, 19, 0.88);
   color: #171313;
 }
 
 .featured-blog-card {
   grid-column: span 2;
-  background: #171313;
+  grid-row: span 2;
+  min-height: clamp(31rem, 43vw, 40rem);
+  padding: clamp(1.4rem, 2vw, 2rem);
+  background:
+    linear-gradient(135deg, rgba(255, 118, 36, 0.12), transparent 36%),
+    #171313;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 248, 220, 0.16),
+    0 7px 0 rgba(24, 20, 19, 0.88);
   color: var(--cream);
 }
 
@@ -674,6 +704,14 @@ h1 {
 .featured-blog-card h3 {
   max-width: 14ch;
   font-size: 3.25rem;
+}
+
+.title-lines {
+  display: inline;
+}
+
+.title-line {
+  display: block;
 }
 
 .blog-card p {
@@ -904,6 +942,12 @@ h1 {
   .related-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .featured-blog-card {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    min-height: clamp(24rem, 38vw, 32rem);
+  }
 }
 
 @media (max-width: 900px) {
@@ -991,7 +1035,7 @@ h1 {
     font-size: 0.7rem;
   }
 
-  .flame-link {
+  .logo-link {
     width: 3.1rem;
   }
 

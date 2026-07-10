@@ -1,0 +1,21 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const marker = "正式更名为";
+const markerIndex = title.indexOf(marker);
+const titleParts =
+  markerIndex >= 0
+    ? [
+        title.slice(0, markerIndex).trim(),
+        marker,
+        title.slice(markerIndex + marker.length).trim(),
+      ].filter(Boolean)
+    : [title];
+---
+
+<span class="title-lines">
+  {titleParts.map((part) => <span class="title-line">{part}</span>)}
+</span>

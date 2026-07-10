@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
+import PostTitle from "../../components/PostTitle.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
@@ -41,7 +42,7 @@ const relatedPosts = getPublishedPosts(await getCollection("blog"))
           <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
           <span>{estimateReadingTime(post.body)} min read</span>
         </div>
-        <h1 id="article-title">{post.data.title}</h1>
+        <h1 id="article-title"><PostTitle title={post.data.title} /></h1>
         <p class="article-summary">{post.data.description}</p>
         <ul class="tag-list article-tag-list">
           {post.data.tags.map((tag) => <li>{tag}</li>)}
@@ -69,7 +70,7 @@ const relatedPosts = getPublishedPosts(await getCollection("blog"))
               {relatedPosts.map((relatedPost) => (
                 <a class="related-card" href={getPostHref(relatedPost)}>
                   <span>{formatDate(relatedPost.data.pubDate)}</span>
-                  <strong>{relatedPost.data.title}</strong>
+                  <strong><PostTitle title={relatedPost.data.title} /></strong>
                   <p>{relatedPost.data.description}</p>
                 </a>
               ))}

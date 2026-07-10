@@ -131,7 +131,7 @@ single-color block.
 
 Use `SiteHeader.astro` at the top of hero-like sections.
 
-- Left side: flame mark in orange.
+- Left side: square avatar mark using the site owner image.
 - Right side: skewed `NEONITY.cc` wordmark.
 - Wordmark uses display type, cream body, pink `.cc`, and a hard text shadow.
 - Header should feel like brand/navigation, not a full app bar.

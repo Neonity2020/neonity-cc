@@ -9,7 +9,7 @@ export default defineConfig({
     starlight({
       title: 'NEONITY.cc Docs',
       description: 'Documentation for the NEONITY.cc personal web node.',
-      favicon: '/favicon.svg',
+      favicon: '/favicon.png',
       customCss: ['./src/styles/starlight.css'],
       sidebar: [
         {

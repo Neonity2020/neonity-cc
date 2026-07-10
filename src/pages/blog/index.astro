@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import PostTitle from "../../components/PostTitle.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { estimateReadingTime, formatDate, getPostHref, getPublishedPosts } from "../../lib/blog";
@@ -49,7 +50,9 @@ const archivePosts = posts.slice(1);
                       <span>{estimateReadingTime(featuredPost.body)} min read</span>
                     </div>
                     <h3>
-                      <a href={getPostHref(featuredPost)}>{featuredPost.data.title}</a>
+                      <a href={getPostHref(featuredPost)}>
+                        <PostTitle title={featuredPost.data.title} />
+                      </a>
                     </h3>
                   </div>
                   <p>{featuredPost.data.description}</p>
@@ -69,7 +72,9 @@ const archivePosts = posts.slice(1);
                       <span>{estimateReadingTime(post.body)} min read</span>
                     </div>
                     <h3>
-                      <a href={getPostHref(post)}>{post.data.title}</a>
+                      <a href={getPostHref(post)}>
+                        <PostTitle title={post.data.title} />
+                      </a>
                     </h3>
                   </div>
                   <p>{post.data.description}</p>
