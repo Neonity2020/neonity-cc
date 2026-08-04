@@ -1,0 +1,106 @@
+---
+import { getCollection } from "astro:content";
+import PostTitle from "../../components/PostTitle.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  estimateReadingTime,
+  formatDate,
+  getPublishedWikiEntries,
+  getWikiHref,
+} from "../../lib/wiki";
+
+const entries = getPublishedWikiEntries(await getCollection("wiki"));
+const featuredEntry = entries[0];
+const archiveEntries = entries.slice(1);
+---
+
+<BaseLayout
+  title="Viktor Lee's Wiki | NEONITY.cc"
+  description="李懋老师懋式百科专栏 — 文章由李懋老师本人授权发布。"
+>
+  <main class="site-shell blog-shell">
+    <section class="blog-hero grid-panel" aria-labelledby="wiki-title">
+      <SiteHeader />
+
+      <div class="section-inner blog-hero-layout">
+        <div>
+          <p class="eyebrow">Viktor Lee's Wiki</p>
+          <h1 id="wiki-title">李懋老师懋式百科专栏</h1>
+        </div>
+        <p>
+          这里是李懋老师授权发布文章的专属专栏。所有内容均经由李懋老师本人授权,致力于原汁原味地呈现他的思考与方法论。
+        </p>
+      </div>
+    </section>
+
+    <section class="blog-index-section" aria-labelledby="wiki-index-title">
+      <div class="section-inner">
+        <div class="blog-index-heading">
+          <p class="eyebrow">Latest</p>
+          <h2 id="wiki-index-title">授权发布</h2>
+        </div>
+
+        {
+          entries.length > 0 ? (
+            <div class="blog-list">
+              {featuredEntry && (
+                <article class="blog-card featured-blog-card">
+                  <div>
+                    <div class="post-meta">
+                      <time datetime={featuredEntry.data.pubDate.toISOString()}>
+                        {formatDate(featuredEntry.data.pubDate)}
+                      </time>
+                      <span>{estimateReadingTime(featuredEntry.body)} min read</span>
+                    </div>
+                    <h3>
+                      <a href={getWikiHref(featuredEntry)}>
+                        <PostTitle title={featuredEntry.data.title} />
+                      </a>
+                    </h3>
+                  </div>
+                  <p>{featuredEntry.data.description}</p>
+                  <p class="wiki-author-credit">
+                    原文作者:{featuredEntry.data.originalAuthor} · 授权人:{featuredEntry.data.authorizedBy} · 授权日期:{formatDate(featuredEntry.data.authorizedDate)}
+                  </p>
+                  <ul class="tag-list">
+                    {featuredEntry.data.tags.map((tag) => (
+                      <li>{tag}</li>
+                    ))}
+                  </ul>
+                </article>
+              )}
+
+              {archiveEntries.map((entry) => (
+                <article class="blog-card">
+                  <div>
+                    <div class="post-meta">
+                      <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate)}</time>
+                      <span>{estimateReadingTime(entry.body)} min read</span>
+                    </div>
+                    <h3>
+                      <a href={getWikiHref(entry)}>
+                        <PostTitle title={entry.data.title} />
+                      </a>
+                    </h3>
+                  </div>
+                  <p>{entry.data.description}</p>
+                  <p class="wiki-author-credit">
+                    授权人:{entry.data.authorizedBy} · 授权日期:{formatDate(entry.data.authorizedDate)}
+                  </p>
+                  <ul class="tag-list">
+                    {entry.data.tags.map((tag) => (
+                      <li>{tag}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <p class="blog-empty">No authorized articles yet.</p>
+          )
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>

@@ -46,10 +46,11 @@ export type ContactContent = {
 export const hero = {
   eyebrow: "Personal homepage",
   title: "NEONITY.cc",
-  body: "I'm Andi. This is my small corner of the internet for projects, notes, experiments, and the ideas I keep returning to.",
+  body: "I'm Neonity. This is my small corner of the internet for projects, notes, experiments, and the ideas I keep returning to.",
   actions: [
     { label: "Explore the work", href: "#work" },
     { label: "Read the blog", href: "/blog/", variant: "secondary" },
+    { label: "懋式百科专栏", href: "/viktor-lee-s-wiki/", variant: "secondary" },
     { label: "Say hello", href: "#contact", variant: "secondary" },
   ],
 } satisfies HeroContent;

@@ -1,0 +1,116 @@
+---
+import { getCollection, render } from "astro:content";
+import PostTitle from "../../components/PostTitle.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  estimateReadingTime,
+  formatDate,
+  getPublishedWikiEntries,
+  getWikiHref,
+  type WikiEntry,
+} from "../../lib/wiki";
+
+interface Props {
+  entry: WikiEntry;
+}
+
+export async function getStaticPaths() {
+  const entries = getPublishedWikiEntries(await getCollection("wiki"));
+
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const relatedEntries = getPublishedWikiEntries(await getCollection("wiki"))
+  .filter((candidate) => candidate.id !== entry.id)
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title={`${entry.data.title} | Viktor Lee's Wiki`}
+  description={entry.data.description}
+>
+  <main class="site-shell article-shell">
+    <section class="article-hero grid-panel" aria-labelledby="wiki-article-title">
+      <SiteHeader />
+
+      <div class="section-inner article-hero-layout">
+        <a class="back-link" href="/viktor-lee-s-wiki/">Back to wiki</a>
+        <div class="article-kicker">
+          <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate)}</time>
+          <span>{estimateReadingTime(entry.body)} min read</span>
+        </div>
+        <h1 id="wiki-article-title"><PostTitle title={entry.data.title} /></h1>
+        <p class="article-summary">{entry.data.description}</p>
+
+        <aside class="wiki-attribution" aria-label="Article attribution">
+          <dl>
+            <div>
+              <dt>原文作者</dt>
+              <dd>{entry.data.originalAuthor}</dd>
+            </div>
+            <div>
+              <dt>授权人</dt>
+              <dd>{entry.data.authorizedBy}</dd>
+            </div>
+            <div>
+              <dt>授权日期</dt>
+              <dd>{formatDate(entry.data.authorizedDate)}</dd>
+            </div>
+            {
+              entry.data.sourceUrl && (
+                <div>
+                  <dt>原文链接</dt>
+                  <dd>
+                    <a href={entry.data.sourceUrl} target="_blank" rel="noopener noreferrer">
+                      查看原文 ↗
+                    </a>
+                  </dd>
+                </div>
+              )
+            }
+          </dl>
+        </aside>
+
+        <ul class="tag-list article-tag-list">
+          {entry.data.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <article class="article-section">
+      <div class="article-frame">
+        <div class="article-body">
+          <Content />
+        </div>
+      </div>
+    </article>
+
+    {
+      relatedEntries.length > 0 && (
+        <section class="related-section grid-panel" aria-labelledby="wiki-related-title">
+          <div class="section-inner">
+            <div class="blog-index-heading">
+              <p class="eyebrow">Next</p>
+              <h2 id="wiki-related-title">继续阅读</h2>
+            </div>
+            <div class="related-list">
+              {relatedEntries.map((relatedEntry) => (
+                <a class="related-card" href={getWikiHref(relatedEntry)}>
+                  <span>{formatDate(relatedEntry.data.pubDate)}</span>
+                  <strong><PostTitle title={relatedEntry.data.title} /></strong>
+                  <p>{relatedEntry.data.description}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </main>
+</BaseLayout>
